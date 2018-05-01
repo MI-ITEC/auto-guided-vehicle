@@ -248,9 +248,16 @@ void sensor_state(void)
 		motor_state = 'R';
 	}
 	else if (c7 == LINE) {
-		motor_state = '<';
+		motor_state = '{';
 	}
 	else if (c1 == LINE) {
+		motor_state = '}';
+	}
+	// 越出边线
+	else if (motor_state == '{') {
+		motor_state = '<';
+	}
+	else if (motor_state == '}') {
 		motor_state = '>';
 	}
 	// else 
@@ -267,22 +274,29 @@ void drive_motor(void)
 		right_forward(7);
 	}
 	else if (motor_state == 'l') {
-		left_backward(3);
+		left_forward(3);
 		right_forward(7);
 	}
 	else if (motor_state == 'r') {
 		left_forward(7);
-		right_backward(3);
+		right_forward(3);
 	}
 	else if (motor_state == 'L') {
-		left_backward(7);
+		left_backward(3);
 		right_forward(7);
 	}
 	else if (motor_state == 'R') {
 		left_forward(7);
+		right_backward(3);
+	}
+	else if (motor_state == '{') {
+		left_backward(7);
+		right_forward(7);
+	}
+	else if (motor_state == '}') {
+		left_forward(7);
 		right_backward(7);
 	}
-	// 出线状态处理
 	else if (motor_state == '<') {
 		left_backward(7);
 		right_forward(4);
